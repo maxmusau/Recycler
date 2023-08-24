@@ -11,7 +11,7 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
         //find the recyler view
         val recyclerView:RecyclerView=findViewById<RecyclerView>(R.id.recyclerview)
-        val adapter=ItemAdapter(Conference_dataset()) //pass the dataset into the adapter
+        val adapter=ItemAdapter(Conference_dataset(),applicationContext) //pass the dataset into the adapter
         recyclerView.adapter=adapter //define the adapter fro the recycler view
         recyclerView.layoutManager=LinearLayoutManager(applicationContext)
     }
@@ -20,19 +20,19 @@ class HomeActivity : AppCompatActivity() {
         val list_items= listOf(
             Item(R.drawable.room1,"Large Board Rooms",
                 "A large conference room for many people","5000",
-                "50000","Available"),
+                "Ksh.50000","Available"),
             Item(R.drawable.room2,"Stylish conference Rooms",
             "A large conference room for many people","5000",
-            "80000","Not Available"),
+            "Ksh.80000","Not Available"),
             Item(R.drawable.room3,"Creative conference Rooms",
                 "A large conference room for many people","5000",
-                "70000","Available"),
+                "Ksh.70000","Available"),
             Item(R.drawable.room4,"Small space Rooms",
                 "A large conference room for many people","5000",
-                "40000","Not Available"),
+                "Ksh.40000","Not Available"),
             Item(R.drawable.room5,"Open Space rooms",
                 "A large conference room for many people","5000",
-                "90000","Available")
+                "Ksh.90000","Available")
         )
         return list_items
     }

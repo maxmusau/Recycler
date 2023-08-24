@@ -14,8 +14,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 
+
 class ItemAdapter(val itemlist:List<Item>,val context:Context) :
+
 RecyclerView.Adapter<ItemAdapter.ItemViewHolder>(){
+
     inner class ItemViewHolder(itemView:View)
         :RecyclerView.ViewHolder(itemView){
             //find the views(ids)
@@ -62,7 +65,8 @@ RecyclerView.Adapter<ItemAdapter.ItemViewHolder>(){
             editor.putString("room_name",item.room_name)
             editor.putString("availability",item.availability)
             editor.putString("cost",item.cost)
-            val x=Intent(context,SingleActivity::class.java)
+            editor.apply()
+            val x=Intent(context, SingleActivity::class.java)
             x.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(x)
         }
