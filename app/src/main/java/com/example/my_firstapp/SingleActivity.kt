@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
@@ -24,7 +26,6 @@ class SingleActivity : AppCompatActivity() {
             .apply(RequestOptions().centerCrop()).into(imageview)
 
         var room_id=findViewById<TextView>(R.id.room_id)
-
         //get room_name data from the sharedpref
         val name=sharedpref.getString("room_name","")
         var room_name=findViewById<TextView>(R.id.room_name)
@@ -41,5 +42,12 @@ class SingleActivity : AppCompatActivity() {
         availability.text=status
 
         var num_of_people=findViewById<TextView>(R.id.num_of_persons)
+
+        //mpesa payment
+        val phone:EditText=findViewById(R.id.phone)
+        val cost_room:EditText=findViewById(R.id.room_cost)
+        val book:Button=findViewById(R.id.book)
+//        api https://sofwaredev.pythonanywhere.com/mpesa_payment
+
     }
 }

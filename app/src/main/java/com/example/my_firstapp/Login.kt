@@ -19,6 +19,7 @@ class Login : AppCompatActivity() {
 
         var signup =findViewById<TextView>(R.id.signup)
         login.setOnClickListener {
+//            api-https://sofwaredev.pythonanywhere.com/signin
             Toast.makeText(applicationContext,
                 "Welcome $username",Toast.LENGTH_LONG).show()
             var x=Intent(applicationContext,MainActivity::class.java)

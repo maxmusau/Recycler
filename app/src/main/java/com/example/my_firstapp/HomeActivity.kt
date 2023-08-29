@@ -17,6 +17,7 @@ class HomeActivity : AppCompatActivity() {
     }
     //create a function that contains the dataset
     private fun Conference_dataset():List<Item>{
+//        api =https://sofwaredev.pythonanywhere.com/getconferencerooms
         val list_items= listOf(
             Item(R.drawable.room1,"Large Board Rooms",
                 "A large conference room for many people","5000",

@@ -28,6 +28,10 @@
                 android:textSize="36sp"
                 android:textColor="@color/purple_700"
                 android:textAlignment="center"/>
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/progressbar"/>
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
