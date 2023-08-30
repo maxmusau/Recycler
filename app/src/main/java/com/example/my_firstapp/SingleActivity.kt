@@ -29,15 +29,23 @@ class SingleActivity : AppCompatActivity() {
         Glide.with(applicationContext).load(image )
             .apply(RequestOptions().centerCrop()).into(imageview)
 
+        val id=sharedpref.getInt("room_id",0)
         var room_id=findViewById<TextView>(R.id.room_id)
+        room_id.text=id.toString()
+
+        val num=sharedpref.getString("num","")
+        var num_people=findViewById<TextView>(R.id.num_of_persons)
+        num_people.text=num
+
+        val desc=sharedpref.getString("room_desc","")
+        var room_des=findViewById<TextView>(R.id.room_desc)
+        room_des.text=desc
+
         //get room_name data from the sharedpref
         val name=sharedpref.getString("room_name","")
         var room_name=findViewById<TextView>(R.id.room_name)
         room_name.text=name
 
-        val desc=sharedpref.getString("room_desc","")
-        var room_des=findViewById<TextView>(R.id.room_desc)
-        room_des.text=desc
 
         val room_cost=sharedpref.getString("cost","")
         var cost=findViewById<TextView>(R.id.cost)
@@ -51,22 +59,21 @@ class SingleActivity : AppCompatActivity() {
 
         //mpesa payment
         val progress = findViewById<ProgressBar>(R.id.progressbar)
+        progress.visibility=View.GONE
         val phone:EditText=findViewById(R.id.phone)
         val cost_room:EditText=findViewById(R.id.room_cost)
         val book:Button=findViewById(R.id.book)
-//        api https://sofwaredev.pythonanywhere.com/mpesa_payment
+
         book.setOnClickListener {
-            progress.visibility= View.VISIBLE
+            progress.visibility=View.VISIBLE
 //            loopj-library to consume the api(http requests)
 //            cretae http client
-            val client= AsyncHttpClient(true,80,443)
+            val client=AsyncHttpClient(true,80,443)
 //            body that holds the data requeired in the api(request)
-            var body= JSONObject()
+            var body=JSONObject()
             //put the data provided by user into the body
             body.put("phone",phone.text.toString())
             body.put("amount",cost_room.text.toString())
-
-
             val con_body= StringEntity(body.toString())
 //            define the http method to use
             client.post(this,
@@ -81,13 +88,13 @@ class SingleActivity : AppCompatActivity() {
                     ) {
 //                    check if the status code is 200
                         if (statusCode == 204){
-                            Toast.makeText(applicationContext, "Please confirm mpesa payment"+statusCode,
+                            Toast.makeText(applicationContext,
+                                "Please check your phone and complete the transaction"+statusCode,
                                 Toast.LENGTH_SHORT).show()
-//                        intent to the signin activity
-
+                                progress.visibility=View.GONE
                         }//end of if
                         else{
-                            progress.visibility= View.GONE
+                            progress.visibility=View.GONE
                             Toast.makeText(applicationContext,
                                 "Failed. Please try again"+statusCode,
                                 Toast.LENGTH_SHORT).show()
@@ -101,12 +108,13 @@ class SingleActivity : AppCompatActivity() {
                         errorResponse: JSONObject?
                     ) {
                         //hide the progressbar
-                        progress.visibility= View.GONE
+                        progress.visibility=View.GONE
                         Toast.makeText(applicationContext,
-                            "Something went Wrong", Toast.LENGTH_SHORT).show()
+                            "Something went Wrong"+statusCode, Toast.LENGTH_SHORT).show()
                     }
                 }
             )
         }
+//        api https://sofwaredev.pythonanywhere.com/mpesa_payment
     }
 }

@@ -48,7 +48,12 @@ RecyclerView.Adapter<ItemAdapter.ItemViewHolder>(){
 
         val desc=holder.itemView.findViewById<TextView>(R.id.room_desc)
         desc.visibility=View.GONE
+        val id=holder.itemView.findViewById<TextView>(R.id.room_id)
+        id.visibility=View.GONE
+        val num=holder.itemView.findViewById<TextView>(R.id.num_of_people)
+        desc.visibility=View.GONE
 //        /convert data
+
         val item=itemlist[position]
         room_name.text=item.room_name
         cost.text=item.cost
@@ -62,6 +67,10 @@ RecyclerView.Adapter<ItemAdapter.ItemViewHolder>(){
         holder.itemView.setOnClickListener {
             desc.text=item.room_desc
             desc.visibility=View.GONE
+            id.text=item.room_desc
+            id.visibility=View.GONE
+            num.text=item.num_of_people
+            num.visibility=View.GONE
             //create the shared preference variavle
             val sharedpref:SharedPreferences=context.getSharedPreferences(
                 "file",Context.MODE_PRIVATE)//only accessible in this app
@@ -72,6 +81,8 @@ RecyclerView.Adapter<ItemAdapter.ItemViewHolder>(){
             editor.putString("availability",item.availability)
             editor.putString("cost",item.cost)
 
+            editor.putInt("room_id",item.room_id)
+            editor.putString("num",item.num_of_people)
             editor.putString("room_desc",item.room_desc)
 
             editor.apply()

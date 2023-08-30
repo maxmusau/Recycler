@@ -7,7 +7,7 @@ data class Item(
     val image_url:String,
     val room_name:String,
     val room_desc:String,
-    val num_people:String,
+    val num_of_people:String,
     val cost:String,
     val availability:String
 )
