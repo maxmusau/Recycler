@@ -84,15 +84,9 @@ class Signup : AppCompatActivity() {
                     progress.visibility=View.GONE
                     Toast.makeText(applicationContext,
                         "Something went Wrong", Toast.LENGTH_SHORT).show()
-
                 }
             }
                 )
-
-
-
-
-
         }
 //           api- https://sofwaredev.pythonanywhere.com/signup
 

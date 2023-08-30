@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
 //        define some functionality
         home.setOnClickListener {
             Toast.makeText(applicationContext,
-                "Go to Login page",Toast.LENGTH_LONG).show()
+                "Go to Home page",Toast.LENGTH_LONG).show()
             //intent kotlin activities
             var x=Intent(applicationContext,HomeActivity::class.java)
             startActivity(x)

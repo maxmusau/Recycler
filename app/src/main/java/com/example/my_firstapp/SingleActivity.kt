@@ -1,15 +1,19 @@
 package com.example.my_firstapp
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
+import android.view.View
+import android.widget.*
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.loopj.android.http.AsyncHttpClient
+import com.loopj.android.http.JsonHttpResponseHandler
+import cz.msebera.android.httpclient.Header
+import cz.msebera.android.httpclient.entity.StringEntity
+import org.json.JSONObject
 
 class SingleActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,7 +24,7 @@ class SingleActivity : AppCompatActivity() {
             "file",Context.MODE_PRIVATE)
         //access the ids
         //get image data from the sharedpref
-        val image=sharedpref.getInt("img_url",0)
+        val image=sharedpref.getString("img_url","")
         var imageview=findViewById<ImageView>(R.id.image_url)
         Glide.with(applicationContext).load(image )
             .apply(RequestOptions().centerCrop()).into(imageview)
@@ -31,7 +35,9 @@ class SingleActivity : AppCompatActivity() {
         var room_name=findViewById<TextView>(R.id.room_name)
         room_name.text=name
 
+        val desc=sharedpref.getString("room_desc","")
         var room_des=findViewById<TextView>(R.id.room_desc)
+        room_des.text=desc
 
         val room_cost=sharedpref.getString("cost","")
         var cost=findViewById<TextView>(R.id.cost)
@@ -44,10 +50,63 @@ class SingleActivity : AppCompatActivity() {
         var num_of_people=findViewById<TextView>(R.id.num_of_persons)
 
         //mpesa payment
+        val progress = findViewById<ProgressBar>(R.id.progressbar)
         val phone:EditText=findViewById(R.id.phone)
         val cost_room:EditText=findViewById(R.id.room_cost)
         val book:Button=findViewById(R.id.book)
 //        api https://sofwaredev.pythonanywhere.com/mpesa_payment
+        book.setOnClickListener {
+            progress.visibility= View.VISIBLE
+//            loopj-library to consume the api(http requests)
+//            cretae http client
+            val client= AsyncHttpClient(true,80,443)
+//            body that holds the data requeired in the api(request)
+            var body= JSONObject()
+            //put the data provided by user into the body
+            body.put("phone",phone.text.toString())
+            body.put("amount",cost_room.text.toString())
 
+
+            val con_body= StringEntity(body.toString())
+//            define the http method to use
+            client.post(this,
+                "https://sofwaredev.pythonanywhere.com/mpesa_payment",
+                con_body,"application/json",
+                object : JsonHttpResponseHandler() {
+                    //onsuccess function
+                    override fun onSuccess(
+                        statusCode: Int,
+                        headers: Array<out Header>?,
+                        response: JSONObject?
+                    ) {
+//                    check if the status code is 200
+                        if (statusCode == 204){
+                            Toast.makeText(applicationContext, "Please confirm mpesa payment"+statusCode,
+                                Toast.LENGTH_SHORT).show()
+//                        intent to the signin activity
+
+                        }//end of if
+                        else{
+                            progress.visibility= View.GONE
+                            Toast.makeText(applicationContext,
+                                "Failed. Please try again"+statusCode,
+                                Toast.LENGTH_SHORT).show()
+                        }
+                    } //end of onsuccess
+
+                    override fun onFailure(
+                        statusCode: Int,
+                        headers: Array<out Header>?,
+                        throwable: Throwable?,
+                        errorResponse: JSONObject?
+                    ) {
+                        //hide the progressbar
+                        progress.visibility= View.GONE
+                        Toast.makeText(applicationContext,
+                            "Something went Wrong", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            )
+        }
     }
 }
